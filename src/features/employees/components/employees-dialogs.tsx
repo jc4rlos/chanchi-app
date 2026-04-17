@@ -1,0 +1,52 @@
+import { EmployeeAccessDialog } from './employee-access-dialog'
+import { EmployeesActionDialog } from './employees-action-dialog'
+import { EmployeesDeleteDialog } from './employees-delete-dialog'
+import { useEmployeesContext } from './employees-provider'
+
+export const EmployeesDialogs = () => {
+  const { open, setOpen, currentRow, setCurrentRow } = useEmployeesContext()
+
+  return (
+    <>
+      <EmployeesActionDialog
+        key='employee-add'
+        open={open === 'add'}
+        onOpenChange={() => setOpen('add')}
+      />
+
+      {currentRow && (
+        <>
+          <EmployeesActionDialog
+            key={`employee-edit-${currentRow.id}`}
+            open={open === 'edit'}
+            onOpenChange={() => {
+              setOpen('edit')
+              setTimeout(() => setCurrentRow(null), 500)
+            }}
+            currentRow={currentRow}
+          />
+
+          <EmployeesDeleteDialog
+            key={`employee-delete-${currentRow.id}`}
+            open={open === 'delete'}
+            onOpenChange={() => {
+              setOpen('delete')
+              setTimeout(() => setCurrentRow(null), 500)
+            }}
+            currentRow={currentRow}
+          />
+
+          <EmployeeAccessDialog
+            key={`employee-access-${currentRow.id}`}
+            open={open === 'access'}
+            onOpenChange={() => {
+              setOpen('access')
+              setTimeout(() => setCurrentRow(null), 500)
+            }}
+            employee={currentRow}
+          />
+        </>
+      )}
+    </>
+  )
+}
