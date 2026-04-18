@@ -44,6 +44,8 @@
   html {
     -webkit-tap-highlight-color: transparent;
     -webkit-font-smoothing: antialiased;
+    /* Evita doble toque para zoom en elementos clicables (comportamiento distinto en PWA vs Safari). */
+    touch-action: manipulation;
   }
 
   body {
@@ -59,6 +61,15 @@
   textarea,
   button {
     font-family: inherit;
+  }
+
+  /* iOS/Android: fuente < 16px en inputs provoca zoom al enfocar; en standalone se nota más. */
+  @media (max-width: 768px) {
+    input,
+    select,
+    textarea {
+      font-size: 16px;
+    }
   }
 }
 
