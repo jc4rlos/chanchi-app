@@ -1,13 +1,22 @@
 import { cn } from '@/lib/utils'
+import { AmountText } from './amount-text'
 
 type KpiVariant = 'income' | 'expense' | 'balance' | 'saving'
 
-type KpiCardProps = {
-  label: string
-  value: string
-  sub?: string
-  variant: KpiVariant
-}
+type KpiCardProps =
+  | {
+      label: string
+      sub?: string
+      variant: 'income' | 'expense' | 'balance'
+      amount: number
+      currency?: string
+    }
+  | {
+      label: string
+      sub?: string
+      variant: 'saving'
+      value: string
+    }
 
 const variantStyles: Record<KpiVariant, { accent: string; value: string }> = {
   income: { accent: 'bg-primary', value: 'text-primary' },
@@ -16,8 +25,8 @@ const variantStyles: Record<KpiVariant, { accent: string; value: string }> = {
   saving: { accent: 'bg-purple', value: 'text-purple' },
 }
 
-export const KpiCard = ({ label, value, sub, variant }: KpiCardProps) => {
-  const styles = variantStyles[variant]
+export const KpiCard = (props: KpiCardProps) => {
+  const styles = variantStyles[props.variant]
 
   return (
     <div className='relative overflow-hidden rounded-[14px] border border-border bg-card p-4 shadow-card'>
@@ -28,17 +37,40 @@ export const KpiCard = ({ label, value, sub, variant }: KpiCardProps) => {
         )}
       />
       <div className='mb-1.5 pl-1 text-[11px] font-semibold tracking-widest text-muted uppercase'>
-        {label}
+        {props.label}
       </div>
-      <div
-        className={cn(
-          'pl-1 font-mono text-[22px] leading-none font-semibold',
-          styles.value
+      <div className='pl-1'>
+        {props.variant === 'saving' ? (
+          <div
+            className={cn(
+              'font-mono text-[22px] leading-none font-semibold',
+              styles.value
+            )}
+          >
+            {props.value}
+          </div>
+        ) : (
+          <AmountText
+            amount={props.amount}
+            currency={props.currency}
+            type={
+              props.variant === 'income'
+                ? 'income'
+                : props.variant === 'expense'
+                  ? 'expense'
+                  : 'neutral'
+            }
+            size='xl'
+            className={cn(
+              'text-[22px] leading-none',
+              props.variant === 'balance' && props.amount >= 0 && 'text-blue'
+            )}
+          />
         )}
-      >
-        {value}
       </div>
-      {sub && <div className='text-soft mt-1.5 pl-1 text-[11px]'>{sub}</div>}
+      {props.sub && (
+        <div className='text-soft mt-1.5 pl-1 text-[11px]'>{props.sub}</div>
+      )}
     </div>
   )
 }

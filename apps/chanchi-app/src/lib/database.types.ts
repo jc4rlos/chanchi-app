@@ -218,6 +218,29 @@ export interface Database {
           paid_at?: string | null
         }
       }
+      debt_payments: {
+        Row: {
+          id: string
+          debt_id: string
+          amount: number
+          note: string | null
+          paid_at: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          debt_id: string
+          amount: number
+          note?: string | null
+          paid_at?: string
+          created_at?: string
+        }
+        Update: {
+          amount?: number
+          note?: string | null
+          paid_at?: string
+        }
+      }
       savings_goals: {
         Row: {
           id: string

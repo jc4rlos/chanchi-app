@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
 import { investmentsService } from '@/services/investments'
 import { useAuthStore } from '@/stores/auth-store'
-import { formatCurrency } from '@/lib/utils'
+import { AmountText } from '@/components/ui/amount-text'
 import { Badge } from '@/components/ui/badge'
 import { BottomSheet } from '@/components/ui/bottom-sheet'
 import { Card } from '@/components/ui/card'
@@ -32,13 +32,21 @@ const InvestmentsPage = () => {
             <div>
               <p className='mb-1 text-xs text-muted'>Invertido</p>
               <p className='font-mono font-semibold'>
-                {formatCurrency(summary.totalInvested)}
+                <AmountText
+                  amount={summary.totalInvested}
+                  currency={summary.currency}
+                  size='sm'
+                />
               </p>
             </div>
             <div className='text-center'>
               <p className='mb-1 text-xs text-muted'>Valor actual</p>
               <p className='font-mono font-semibold text-primary'>
-                {formatCurrency(summary.currentValue)}
+                <AmountText
+                  amount={summary.currentValue}
+                  currency={summary.currency}
+                  size='sm'
+                />
               </p>
             </div>
             <div className='text-right'>
@@ -48,7 +56,11 @@ const InvestmentsPage = () => {
                   className={`font-mono font-semibold ${summary.gain >= 0 ? 'text-primary' : 'text-danger'}`}
                 >
                   {summary.gain >= 0 ? '+' : ''}
-                  {formatCurrency(summary.gain)}
+                  <AmountText
+                    amount={summary.gain}
+                    currency={summary.currency}
+                    size='sm'
+                  />
                 </p>
                 <Badge variant={summary.gainPct >= 0 ? 'success' : 'danger'}>
                   {summary.gainPct >= 0 ? '+' : ''}

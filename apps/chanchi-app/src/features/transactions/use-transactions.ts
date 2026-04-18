@@ -7,11 +7,18 @@ import type { Database } from '@/lib/database.types'
 
 type TxInsert = Database['public']['Tables']['transactions']['Insert']
 
+type UseTransactionsOptions = {
+  /** Cuentas y categorías solo para el formulario de alta; evita fetch al cargar la lista. */
+  enableFormData?: boolean
+}
+
 export const useTransactions = (
   userId: string,
-  filters?: TransactionFilters
+  filters?: TransactionFilters,
+  options?: UseTransactionsOptions
 ) => {
   const qc = useQueryClient()
+  const loadForm = options?.enableFormData === true
 
   const transactions = useQuery({
     queryKey: ['transactions', userId, filters],
@@ -21,11 +28,13 @@ export const useTransactions = (
   const categories = useQuery({
     queryKey: ['categories', userId],
     queryFn: () => categoriesService.findAll(userId),
+    enabled: loadForm,
   })
 
   const accounts = useQuery({
     queryKey: ['accounts', userId],
     queryFn: () => accountsService.findByUser(userId),
+    enabled: loadForm,
   })
 
   const create = useMutation({

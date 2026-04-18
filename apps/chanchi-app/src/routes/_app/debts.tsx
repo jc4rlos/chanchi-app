@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
-import type { Debt } from '@/types/finance'
+import type { DebtWithPayments } from '@/types/finance'
 import { useAuthStore } from '@/stores/auth-store'
 import { BottomSheet } from '@/components/ui/bottom-sheet'
 import { Button } from '@/components/ui/button'
@@ -9,13 +9,15 @@ import { Fab } from '@/components/ui/fab'
 import { PageHeader } from '@/components/ui/page-header'
 import { DebtForm } from '@/features/debts/debt-form'
 import { DebtItem } from '@/features/debts/debt-item'
+import { PaymentForm } from '@/features/debts/payment-form'
 import { useDebts } from '@/features/debts/use-debts'
 
 const DebtsPage = () => {
   const { user } = useAuthStore()
-  const { debts, create, markPaid, remove } = useDebts(user!.id)
-  const [sheetOpen, setSheetOpen] = useState(false)
-  const [filter, setFilter] = useState<'all' | 'pending' | 'paid'>('pending')
+  const { debts, create, addPayment, remove } = useDebts(user!.id)
+  const [newDebtOpen, setNewDebtOpen] = useState(false)
+  const [payingDebt, setPayingDebt] = useState<DebtWithPayments | null>(null)
+  const [filter, setFilter] = useState<'pending' | 'paid' | 'all'>('pending')
 
   const filtered =
     debts.data?.filter((d) => {
@@ -24,8 +26,8 @@ const DebtsPage = () => {
       return true
     }) ?? []
 
-  const iOwe = filtered.filter((d: Debt) => d.direction === 'i_owe')
-  const theyOweMe = filtered.filter((d: Debt) => d.direction === 'they_owe_me')
+  const iOwe = filtered.filter((d) => d.direction === 'i_owe')
+  const theyOweMe = filtered.filter((d) => d.direction === 'they_owe_me')
 
   return (
     <div>
@@ -68,7 +70,7 @@ const DebtsPage = () => {
                   <DebtItem
                     key={d.id}
                     debt={d}
-                    onMarkPaid={(id) => markPaid.mutate(id)}
+                    onAddPayment={setPayingDebt}
                     onDelete={(id) => remove.mutate(id)}
                   />
                 ))}
@@ -85,7 +87,7 @@ const DebtsPage = () => {
                   <DebtItem
                     key={d.id}
                     debt={d}
-                    onMarkPaid={(id) => markPaid.mutate(id)}
+                    onAddPayment={setPayingDebt}
                     onDelete={(id) => remove.mutate(id)}
                   />
                 ))}
@@ -95,20 +97,43 @@ const DebtsPage = () => {
         </div>
       )}
 
-      <Fab onClick={() => setSheetOpen(true)} label='Nueva deuda' />
+      <Fab onClick={() => setNewDebtOpen(true)} label='Nueva deuda' />
 
       <BottomSheet
-        open={sheetOpen}
-        onClose={() => setSheetOpen(false)}
+        open={newDebtOpen}
+        onClose={() => setNewDebtOpen(false)}
         title='Nueva deuda'
       >
         <DebtForm
           userId={user!.id}
           onSubmit={(p) =>
-            create.mutate(p, { onSuccess: () => setSheetOpen(false) })
+            create.mutate(p, { onSuccess: () => setNewDebtOpen(false) })
           }
           loading={create.isPending}
         />
+      </BottomSheet>
+
+      <BottomSheet
+        open={!!payingDebt}
+        onClose={() => setPayingDebt(null)}
+        title={payingDebt ? `Pago — ${payingDebt.counterpart}` : ''}
+      >
+        {payingDebt && (
+          <PaymentForm
+            debtId={payingDebt.id}
+            maxAmount={
+              payingDebt.remaining > 0
+                ? parseFloat(payingDebt.remaining.toFixed(2))
+                : undefined
+            }
+            onSubmit={(payload) =>
+              addPayment.mutate(payload, {
+                onSuccess: () => setPayingDebt(null),
+              })
+            }
+            loading={addPayment.isPending}
+          />
+        )}
       </BottomSheet>
     </div>
   )

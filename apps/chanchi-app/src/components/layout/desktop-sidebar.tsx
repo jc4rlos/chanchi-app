@@ -9,8 +9,11 @@ import {
   RefreshCw,
   Settings,
   Tag,
+  Eye,
+  EyeOff,
 } from 'lucide-react'
 import { useAuthStore } from '@/stores/auth-store'
+import { useUIStore } from '@/stores/ui-store'
 import { cn } from '@/lib/utils'
 
 type NavItem = { to: string; icon: React.ElementType; label: string }
@@ -31,6 +34,7 @@ const navItems: NavItem[] = [
 export const DesktopSidebar = () => {
   const { location } = useRouterState()
   const { user, signOut } = useAuthStore()
+  const { amountsVisible, toggleAmounts } = useUIStore()
   const path = location.pathname
   const initials = user?.email?.[0]?.toUpperCase() ?? 'U'
 
@@ -39,9 +43,16 @@ export const DesktopSidebar = () => {
       <div className='border-b border-border px-5 py-5'>
         <div className='flex items-center gap-2'>
           <span className='text-2xl'>🐷</span>
-          <span className='text-base font-semibold text-foreground'>
+          <span className='flex-1 text-base font-semibold text-foreground'>
             Chanchi
           </span>
+          <button
+            onClick={toggleAmounts}
+            className='flex h-7 w-7 items-center justify-center rounded-lg text-muted transition-colors hover:bg-[#F3F4F6] hover:text-foreground'
+            title={amountsVisible ? 'Ocultar montos' : 'Mostrar montos'}
+          >
+            {amountsVisible ? <EyeOff size={14} /> : <Eye size={14} />}
+          </button>
         </div>
       </div>
 

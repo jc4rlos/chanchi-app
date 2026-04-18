@@ -18,9 +18,13 @@ const TransactionsPage = () => {
   )
 
   const { transactions, categories, accounts, create, remove } =
-    useTransactions(user!.id, {
-      type: typeFilter === 'all' ? undefined : typeFilter,
-    })
+    useTransactions(
+      user!.id,
+      {
+        type: typeFilter === 'all' ? undefined : typeFilter,
+      },
+      { enableFormData: sheetOpen }
+    )
 
   const handleCreate = (payload: Parameters<typeof create.mutate>[0]) => {
     create.mutate(payload, { onSuccess: () => setSheetOpen(false) })
@@ -73,21 +77,31 @@ const TransactionsPage = () => {
 
       <Fab onClick={() => setSheetOpen(true)} label='Nueva transacción' />
 
-      <BottomSheet
-        open={sheetOpen}
-        onClose={() => setSheetOpen(false)}
-        title='Nueva transacción'
-      >
-        {accounts.data && categories.data && (
-          <TransactionForm
-            userId={user!.id}
-            accounts={accounts.data}
-            categories={categories.data}
-            onSubmit={handleCreate}
-            loading={create.isPending}
-          />
-        )}
-      </BottomSheet>
+      {sheetOpen && (
+        <BottomSheet
+          open={sheetOpen}
+          onClose={() => setSheetOpen(false)}
+          title='Nueva transacción'
+        >
+          {categories.isPending || accounts.isPending ? (
+            <div className='py-10 text-center text-sm text-muted'>
+              Cargando cuentas y categorías…
+            </div>
+          ) : categories.data && accounts.data ? (
+            <TransactionForm
+              userId={user!.id}
+              accounts={accounts.data}
+              categories={categories.data}
+              onSubmit={handleCreate}
+              loading={create.isPending}
+            />
+          ) : (
+            <div className='text-danger py-8 text-center text-sm'>
+              No se pudieron cargar cuentas o categorías. Intenta de nuevo.
+            </div>
+          )}
+        </BottomSheet>
+      )}
     </div>
   )
 }

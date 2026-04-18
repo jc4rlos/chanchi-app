@@ -10,14 +10,26 @@ export const formatCurrency = (amount: number, currency = 'PEN'): string =>
     minimumFractionDigits: 2,
   }).format(amount)
 
+/**
+ * `new Date("yyyy-mm-dd")` es medianoche UTC; al formatear en zona local (p. ej. es-PE)
+ * puede mostrarse el día anterior. Las fechas calendario puras se interpretan en hora local.
+ */
+function dateFromString(value: string): Date {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value.trim())
+  if (m) {
+    return new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]))
+  }
+  return new Date(value)
+}
+
 export const formatDate = (date: string): string =>
   new Intl.DateTimeFormat('es-PE', { day: 'numeric', month: 'short' }).format(
-    new Date(date)
+    dateFromString(date)
   )
 
 export const formatMonth = (date: string): string =>
   new Intl.DateTimeFormat('es-PE', { month: 'long', year: 'numeric' }).format(
-    new Date(date)
+    dateFromString(date)
   )
 
 export const currentMonthStart = (): string => {

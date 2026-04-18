@@ -1,3 +1,4 @@
+import { useUIStore } from '@/stores/ui-store'
 import { cn, formatCurrency } from '@/lib/utils'
 
 type AmountTextProps = {
@@ -24,6 +25,8 @@ export const AmountText = ({
   showSign = false,
   size = 'md',
 }: AmountTextProps) => {
+  const { amountsVisible } = useUIStore()
+
   const colorClass =
     type === 'income'
       ? 'text-primary'
@@ -50,8 +53,14 @@ export const AmountText = ({
         className
       )}
     >
-      {prefix}
-      {formatCurrency(Math.abs(amount), currency)}
+      {amountsVisible ? (
+        <>
+          {prefix}
+          {formatCurrency(Math.abs(amount), currency)}
+        </>
+      ) : (
+        '••••••'
+      )}
     </span>
   )
 }

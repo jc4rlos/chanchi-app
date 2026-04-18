@@ -1,6 +1,7 @@
 import type { Investment } from '@/types/finance'
 import { Pencil, Trash2 } from 'lucide-react'
-import { formatCurrency, calcGainPct } from '@/lib/utils'
+import { calcGainPct } from '@/lib/utils'
+import { AmountText } from '@/components/ui/amount-text'
 import { Badge } from '@/components/ui/badge'
 
 const ASSET_LABELS: Record<Investment['asset_type'], string> = {
@@ -57,13 +58,21 @@ export const InvestmentRow = ({ investment: inv, onEdit, onDelete }: Props) => {
         <div>
           <p className='text-muted'>Invertido</p>
           <p className='font-mono font-semibold'>
-            {formatCurrency(inv.total_invested, inv.currency)}
+            <AmountText
+              amount={inv.total_invested}
+              currency={inv.currency}
+              size='sm'
+            />
           </p>
         </div>
         <div className='text-center'>
           <p className='text-muted'>Valor actual</p>
           <p className='font-mono font-semibold text-primary'>
-            {formatCurrency(inv.current_value, inv.currency)}
+            <AmountText
+              amount={inv.current_value}
+              currency={inv.currency}
+              size='sm'
+            />
           </p>
         </div>
         <div className='text-right'>
@@ -72,7 +81,7 @@ export const InvestmentRow = ({ investment: inv, onEdit, onDelete }: Props) => {
             className={`font-mono font-semibold ${gain >= 0 ? 'text-primary' : 'text-danger'}`}
           >
             {gain >= 0 ? '+' : ''}
-            {formatCurrency(gain, inv.currency)}
+            <AmountText amount={gain} currency={inv.currency} size='sm' />
           </p>
         </div>
       </div>

@@ -1,14 +1,38 @@
 import { useState } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
-import { LogOut, Bell, KeyRound, ChevronRight } from 'lucide-react'
+import { LogOut, Bell, KeyRound, ChevronRight, Eye, EyeOff } from 'lucide-react'
 import { useAuthStore } from '@/stores/auth-store'
+import { useUIStore } from '@/stores/ui-store'
 import { BottomSheet } from '@/components/ui/bottom-sheet'
 import { Card } from '@/components/ui/card'
 import { PageHeader } from '@/components/ui/page-header'
 import { ChangePasswordForm } from '@/features/auth/change-password-form'
 
+const Toggle = ({
+  value,
+  onToggle,
+}: {
+  value: boolean
+  onToggle: () => void
+}) => (
+  <button
+    type='button'
+    onClick={onToggle}
+    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+      value ? 'bg-primary' : 'bg-[#D1D5DB]'
+    }`}
+  >
+    <span
+      className={`inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform ${
+        value ? 'translate-x-6' : 'translate-x-1'
+      }`}
+    />
+  </button>
+)
+
 const SettingsPage = () => {
   const { user, signOut } = useAuthStore()
+  const { amountsVisible, toggleAmounts } = useUIStore()
   const [pwdSheetOpen, setPwdSheetOpen] = useState(false)
 
   return (
@@ -28,6 +52,30 @@ const SettingsPage = () => {
           </div>
         </Card>
 
+        {/* Privacidad */}
+        <Card>
+          <p className='mb-3 text-xs font-semibold tracking-widest text-muted uppercase'>
+            Privacidad
+          </p>
+          <div className='flex items-center gap-3'>
+            {amountsVisible ? (
+              <Eye size={18} className='flex-shrink-0 text-muted' />
+            ) : (
+              <EyeOff size={18} className='flex-shrink-0 text-muted' />
+            )}
+            <div className='flex-1'>
+              <p className='text-sm text-foreground'>Mostrar montos</p>
+              <p className='text-xs text-muted'>
+                {amountsVisible
+                  ? 'Los montos son visibles'
+                  : 'Montos ocultos ••••••'}
+              </p>
+            </div>
+            <Toggle value={amountsVisible} onToggle={toggleAmounts} />
+          </div>
+        </Card>
+
+        {/* Cuenta */}
         <Card>
           <div className='flex flex-col divide-y divide-[#F9FAFB]'>
             <button

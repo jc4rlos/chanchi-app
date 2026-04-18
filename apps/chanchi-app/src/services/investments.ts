@@ -23,6 +23,7 @@ export const investmentsService = {
     const currentValue = investments.reduce((s, i) => s + i.current_value, 0)
     const gain = currentValue - totalInvested
     const gainPct = totalInvested > 0 ? (gain / totalInvested) * 100 : 0
-    return { totalInvested, currentValue, gain, gainPct }
+    const currency = investments[0]?.currency ?? 'PEN'
+    return { totalInvested, currentValue, gain, gainPct, currency }
   },
 }

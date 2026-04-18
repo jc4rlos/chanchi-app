@@ -40,3 +40,11 @@ export type TransactionFilters = {
 }
 
 export type CategoryWithType = Category & { type: CategoryType }
+
+export type DebtPayment = Database['public']['Tables']['debt_payments']['Row']
+
+export type DebtWithPayments = Debt & {
+  debt_payments: DebtPayment[]
+  paid_amount: number
+  remaining: number
+}

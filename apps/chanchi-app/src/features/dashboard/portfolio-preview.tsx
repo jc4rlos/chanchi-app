@@ -1,13 +1,14 @@
 import { investmentsService } from '@/services/investments'
 import type { Investment } from '@/types/finance'
-import { formatCurrency, calcGainPct } from '@/lib/utils'
+import { calcGainPct } from '@/lib/utils'
+import { AmountText } from '@/components/ui/amount-text'
 import { Badge } from '@/components/ui/badge'
 import { Card } from '@/components/ui/card'
 
 type Props = { investments: Investment[] }
 
 export const PortfolioPreview = ({ investments }: Props) => {
-  const { totalInvested, currentValue, gain, gainPct } =
+  const { totalInvested, currentValue, gain, gainPct, currency } =
     investmentsService.portfolioSummary(investments)
 
   return (
@@ -24,13 +25,13 @@ export const PortfolioPreview = ({ investments }: Props) => {
         <div>
           <p className='mb-0.5 text-muted'>Invertido</p>
           <p className='font-mono font-semibold'>
-            {formatCurrency(totalInvested)}
+            <AmountText amount={totalInvested} currency={currency} size='sm' />
           </p>
         </div>
         <div className='text-center'>
           <p className='mb-0.5 text-muted'>Valor actual</p>
           <p className='font-mono font-semibold text-primary'>
-            {formatCurrency(currentValue)}
+            <AmountText amount={currentValue} currency={currency} size='sm' />
           </p>
         </div>
         <div className='text-right'>
@@ -39,7 +40,7 @@ export const PortfolioPreview = ({ investments }: Props) => {
             className={`font-mono font-semibold ${gain >= 0 ? 'text-primary' : 'text-danger'}`}
           >
             {gain >= 0 ? '+' : ''}
-            {formatCurrency(gain)}
+            <AmountText amount={gain} currency={currency} size='sm' />
           </p>
         </div>
       </div>
@@ -62,7 +63,7 @@ export const PortfolioPreview = ({ investments }: Props) => {
               </div>
               <div className='text-right'>
                 <p className='font-mono text-sm font-semibold'>
-                  {formatCurrency(inv.current_value, inv.currency)}
+                  <AmountText amount={gain} currency={inv.currency} size='sm' />
                 </p>
                 <p
                   className={`text-[11px] ${g >= 0 ? 'text-primary' : 'text-danger'}`}
