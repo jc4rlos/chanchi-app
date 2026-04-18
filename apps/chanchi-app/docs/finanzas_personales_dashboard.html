@@ -1,0 +1,967 @@
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap');
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  :root {
+    --green: #16a34a;
+    --green-light: #dcfce7;
+    --green-mid: #4ade80;
+    --red: #dc2626;
+    --red-light: #fee2e2;
+    --amber: #d97706;
+    --amber-light: #fef3c7;
+    --blue: #0284c7;
+    --blue-light: #e0f2fe;
+    --purple: #7c3aed;
+    --purple-light: #ede9fe;
+    --bg: #f8faf9;
+    --card: #fff;
+    --border: #e5e7eb;
+    --text: #111827;
+    --muted: #6b7280;
+    --soft: #9ca3af;
+    font-family: 'DM Sans', sans-serif;
+  }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+  }
+  .wrap {
+    padding: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  /* Header */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  .header h1 {
+    font-size: 18px;
+    font-weight: 600;
+  }
+  .month-sel {
+    font-size: 13px;
+    color: var(--muted);
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 5px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  /* KPI row */
+  .kpi-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .kpi {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+  .kpi-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .kpi-val {
+    font-size: 22px;
+    font-weight: 600;
+    font-family: 'DM Mono', monospace;
+    line-height: 1;
+  }
+  .kpi-sub {
+    font-size: 11px;
+    color: var(--soft);
+    margin-top: 5px;
+  }
+  .kpi-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 5px;
+  }
+  .kpi.income .kpi-val {
+    color: var(--green);
+  }
+  .kpi.expense .kpi-val {
+    color: var(--red);
+  }
+  .kpi.balance .kpi-val {
+    color: var(--blue);
+  }
+  .kpi.saving .kpi-val {
+    color: var(--purple);
+  }
+  .kpi-accent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    border-radius: 14px 0 0 14px;
+  }
+  .kpi.income .kpi-accent {
+    background: var(--green);
+  }
+  .kpi.expense .kpi-accent {
+    background: var(--red);
+  }
+  .kpi.balance .kpi-accent {
+    background: var(--blue);
+  }
+  .kpi.saving .kpi-accent {
+    background: var(--purple);
+  }
+
+  /* Main grid */
+  .main-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px;
+  }
+  .card-title {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .badge {
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-weight: 500;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+
+  /* Bar chart */
+  .bar-chart {
+    display: flex;
+    align-items: flex-end;
+    gap: 6px;
+    height: 90px;
+  }
+  .bar-group {
+    flex: 1;
+    display: flex;
+    gap: 3px;
+    align-items: flex-end;
+  }
+  .bar {
+    flex: 1;
+    border-radius: 4px 4px 0 0;
+    transition: opacity 0.2s;
+  }
+  .bar:hover {
+    opacity: 0.8;
+  }
+  .bar-labels {
+    display: flex;
+    gap: 6px;
+    margin-top: 6px;
+  }
+  .bar-label {
+    flex: 1;
+    text-align: center;
+    font-size: 10px;
+    color: var(--soft);
+  }
+  .chart-legend {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 8px;
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .leg-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    display: inline-block;
+    margin-right: 4px;
+  }
+
+  /* Donut */
+  .donut-wrap {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+  .donut-legend {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    flex: 1;
+  }
+  .leg-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+  }
+  .leg-name {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text);
+  }
+  .leg-pct {
+    font-weight: 600;
+    font-family: 'DM Mono', monospace;
+    color: var(--muted);
+    font-size: 11px;
+  }
+
+  /* Budget bars */
+  .budget-item {
+    margin-bottom: 10px;
+  }
+  .budget-top {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    margin-bottom: 4px;
+  }
+  .budget-name {
+    color: var(--text);
+    font-weight: 500;
+  }
+  .budget-nums {
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+  }
+  .budget-bar {
+    height: 6px;
+    background: #f3f4f6;
+    border-radius: 99px;
+    overflow: hidden;
+  }
+  .budget-fill {
+    height: 100%;
+    border-radius: 99px;
+    transition: width 0.6s;
+  }
+
+  /* Goals */
+  .goal-item {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #f9fafb;
+  }
+  .goal-item:last-child {
+    border: none;
+  }
+  .goal-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .goal-info {
+    flex: 1;
+  }
+  .goal-name {
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 3px;
+  }
+  .goal-bar {
+    height: 5px;
+    background: #f3f4f6;
+    border-radius: 99px;
+    overflow: hidden;
+    margin-bottom: 3px;
+  }
+  .goal-fill {
+    height: 100%;
+    background: var(--green);
+    border-radius: 99px;
+  }
+  .goal-nums {
+    font-size: 11px;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+  }
+  .goal-pct {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--green);
+    flex-shrink: 0;
+  }
+
+  /* Transactions */
+  .tx-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 9px 0;
+    border-bottom: 1px solid #f9fafb;
+  }
+  .tx-item:last-child {
+    border: none;
+  }
+  .tx-left {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  .tx-cat {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    flex-shrink: 0;
+  }
+  .tx-desc {
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .tx-date {
+    font-size: 11px;
+    color: var(--soft);
+  }
+  .tx-amount {
+    font-family: 'DM Mono', monospace;
+    font-weight: 600;
+    font-size: 13px;
+  }
+  .tx-amount.pos {
+    color: var(--green);
+  }
+  .tx-amount.neg {
+    color: var(--red);
+  }
+
+  /* Portfolio */
+  .port-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #f9fafb;
+  }
+  .port-row:last-child {
+    border: none;
+  }
+  .port-name {
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .port-ticker {
+    font-size: 11px;
+    color: var(--soft);
+    font-family: 'DM Mono', monospace;
+  }
+  .port-val {
+    text-align: right;
+  }
+  .port-price {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .port-gain {
+    font-size: 11px;
+  }
+  .port-gain.up {
+    color: var(--green);
+  }
+  .port-gain.dn {
+    color: var(--red);
+  }
+
+  .full-card {
+    grid-column: 1/-1;
+  }
+  .nav {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 16px;
+    overflow-x: auto;
+    padding-bottom: 2px;
+  }
+  .nav-btn {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .nav-btn.active {
+    background: var(--green);
+    color: #fff;
+    border-color: var(--green);
+  }
+</style>
+
+<div class="wrap">
+  <!-- Header -->
+  <div class="header">
+    <div>
+      <h1>Mis Finanzas</h1>
+      <div style="font-size: 12px; color: var(--muted); margin-top: 2px">
+        Bienvenido, Juan · Junio 2025
+      </div>
+    </div>
+    <div style="display: flex; gap: 8px; align-items: center">
+      <button class="month-sel">◀ Jun 2025 ▶</button>
+      <div
+        style="
+          width: 32px;
+          height: 32px;
+          border-radius: 50%;
+          background: var(--green);
+          color: #fff;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: 600;
+          font-size: 14px;
+        "
+      >
+        J
+      </div>
+    </div>
+  </div>
+
+  <!-- Nav -->
+  <div class="nav">
+    <button class="nav-btn active">Dashboard</button>
+    <button class="nav-btn">Ingresos</button>
+    <button class="nav-btn">Gastos</button>
+    <button class="nav-btn">Ahorros</button>
+    <button class="nav-btn">Inversión</button>
+    <button class="nav-btn">Cuentas</button>
+    <button class="nav-btn">Reportes</button>
+  </div>
+
+  <!-- KPIs -->
+  <div class="kpi-row">
+    <div class="kpi income">
+      <div class="kpi-accent"></div>
+      <div class="kpi-label">Ingresos</div>
+      <div class="kpi-val">S/ 4,800</div>
+      <div class="kpi-sub">+5% vs mes anterior</div>
+    </div>
+    <div class="kpi expense">
+      <div class="kpi-accent"></div>
+      <div class="kpi-label">Gastos</div>
+      <div class="kpi-val">S/ 2,874</div>
+      <div class="kpi-sub">59.9% del ingreso</div>
+    </div>
+    <div class="kpi balance">
+      <div class="kpi-accent"></div>
+      <div class="kpi-label">Balance neto</div>
+      <div class="kpi-val">S/ 1,926</div>
+      <div class="kpi-sub">Después de gastos</div>
+    </div>
+    <div class="kpi saving">
+      <div class="kpi-accent"></div>
+      <div class="kpi-label">Tasa de ahorro</div>
+      <div class="kpi-val">40.1%</div>
+      <div class="kpi-sub">
+        <span class="kpi-dot" style="background: var(--green-mid)"></span>Meta:
+        30%
+      </div>
+    </div>
+  </div>
+
+  <!-- Row 1 -->
+  <div class="main-grid">
+    <!-- Bar chart -->
+    <div class="card">
+      <div class="card-title">
+        Ingresos vs Gastos
+        <div class="chart-legend" style="margin: 0">
+          <span
+            ><span class="leg-dot" style="background: var(--green)"></span
+            >Ingreso</span
+          >
+          <span
+            ><span class="leg-dot" style="background: var(--red)"></span
+            >Gasto</span
+          >
+        </div>
+      </div>
+      <div class="bar-chart">
+        <div class="bar-group">
+          <div class="bar" style="height: 52px; background: var(--green)"></div>
+          <div class="bar" style="height: 38px; background: var(--red)"></div>
+        </div>
+        <div class="bar-group">
+          <div class="bar" style="height: 60px; background: var(--green)"></div>
+          <div class="bar" style="height: 44px; background: var(--red)"></div>
+        </div>
+        <div class="bar-group">
+          <div class="bar" style="height: 55px; background: var(--green)"></div>
+          <div class="bar" style="height: 50px; background: var(--red)"></div>
+        </div>
+        <div class="bar-group">
+          <div class="bar" style="height: 58px; background: var(--green)"></div>
+          <div class="bar" style="height: 40px; background: var(--red)"></div>
+        </div>
+        <div class="bar-group">
+          <div class="bar" style="height: 70px; background: var(--green)"></div>
+          <div class="bar" style="height: 48px; background: var(--red)"></div>
+        </div>
+        <div class="bar-group">
+          <div class="bar" style="height: 80px; background: var(--green)"></div>
+          <div class="bar" style="height: 52px; background: var(--red)"></div>
+        </div>
+      </div>
+      <div class="bar-labels">
+        <div class="bar-label">Ene</div>
+        <div class="bar-label">Feb</div>
+        <div class="bar-label">Mar</div>
+        <div class="bar-label">Abr</div>
+        <div class="bar-label">May</div>
+        <div class="bar-label">Jun</div>
+      </div>
+    </div>
+
+    <!-- Donut -->
+    <div class="card">
+      <div class="card-title">Gastos por categoría</div>
+      <div class="donut-wrap">
+        <svg width="80" height="80" viewBox="0 0 80 80">
+          <circle
+            cx="40"
+            cy="40"
+            r="28"
+            fill="none"
+            stroke="#F3F4F6"
+            stroke-width="14"
+          />
+          <circle
+            cx="40"
+            cy="40"
+            r="28"
+            fill="none"
+            stroke="#DC2626"
+            stroke-width="14"
+            stroke-dasharray="52 124"
+            stroke-dashoffset="35"
+            stroke-linecap="round"
+          />
+          <circle
+            cx="40"
+            cy="40"
+            r="28"
+            fill="none"
+            stroke="#D97706"
+            stroke-width="14"
+            stroke-dasharray="32 144"
+            stroke-dashoffset="-17"
+            stroke-linecap="round"
+          />
+          <circle
+            cx="40"
+            cy="40"
+            r="28"
+            fill="none"
+            stroke="#0284C7"
+            stroke-width="14"
+            stroke-dasharray="25 151"
+            stroke-dashoffset="-49"
+            stroke-linecap="round"
+          />
+          <circle
+            cx="40"
+            cy="40"
+            r="28"
+            fill="none"
+            stroke="#9333EA"
+            stroke-width="14"
+            stroke-dasharray="20 156"
+            stroke-dashoffset="-74"
+            stroke-linecap="round"
+          />
+          <circle
+            cx="40"
+            cy="40"
+            r="28"
+            fill="none"
+            stroke="#E5E7EB"
+            stroke-width="14"
+            stroke-dasharray="47 129"
+            stroke-dashoffset="-94"
+            stroke-linecap="round"
+          />
+          <text
+            x="40"
+            y="44"
+            text-anchor="middle"
+            font-size="11"
+            font-weight="600"
+            fill="var(--text)"
+            font-family="DM Sans"
+          >
+            Jun
+          </text>
+        </svg>
+        <div class="donut-legend">
+          <div class="leg-row">
+            <div class="leg-name">
+              <span
+                style="
+                  width: 8px;
+                  height: 8px;
+                  border-radius: 2px;
+                  background: #dc2626;
+                  display: inline-block;
+                "
+              ></span
+              >Alimentación
+            </div>
+            <div class="leg-pct">28%</div>
+          </div>
+          <div class="leg-row">
+            <div class="leg-name">
+              <span
+                style="
+                  width: 8px;
+                  height: 8px;
+                  border-radius: 2px;
+                  background: #d97706;
+                  display: inline-block;
+                "
+              ></span
+              >Transporte
+            </div>
+            <div class="leg-pct">17%</div>
+          </div>
+          <div class="leg-row">
+            <div class="leg-name">
+              <span
+                style="
+                  width: 8px;
+                  height: 8px;
+                  border-radius: 2px;
+                  background: #0284c7;
+                  display: inline-block;
+                "
+              ></span
+              >Vivienda
+            </div>
+            <div class="leg-pct">14%</div>
+          </div>
+          <div class="leg-row">
+            <div class="leg-name">
+              <span
+                style="
+                  width: 8px;
+                  height: 8px;
+                  border-radius: 2px;
+                  background: #9333ea;
+                  display: inline-block;
+                "
+              ></span
+              >Entret.
+            </div>
+            <div class="leg-pct">11%</div>
+          </div>
+          <div class="leg-row">
+            <div class="leg-name">
+              <span
+                style="
+                  width: 8px;
+                  height: 8px;
+                  border-radius: 2px;
+                  background: #e5e7eb;
+                  display: inline-block;
+                "
+              ></span
+              >Otros
+            </div>
+            <div class="leg-pct">30%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Row 2 -->
+  <div class="main-grid">
+    <!-- Presupuestos -->
+    <div class="card">
+      <div class="card-title">
+        Presupuestos
+        <span
+          class="badge"
+          style="background: var(--red-light); color: var(--red)"
+          >1 excedido</span
+        >
+      </div>
+      <div class="budget-item">
+        <div class="budget-top">
+          <span class="budget-name">🛒 Alimentación</span
+          ><span class="budget-nums">S/802 / S/800</span>
+        </div>
+        <div class="budget-bar">
+          <div
+            class="budget-fill"
+            style="width: 100%; background: var(--red)"
+          ></div>
+        </div>
+      </div>
+      <div class="budget-item">
+        <div class="budget-top">
+          <span class="budget-name">🚗 Transporte</span
+          ><span class="budget-nums">S/380 / S/500</span>
+        </div>
+        <div class="budget-bar">
+          <div
+            class="budget-fill"
+            style="width: 76%; background: var(--amber)"
+          ></div>
+        </div>
+      </div>
+      <div class="budget-item">
+        <div class="budget-top">
+          <span class="budget-name">🏠 Vivienda</span
+          ><span class="budget-nums">S/400 / S/600</span>
+        </div>
+        <div class="budget-bar">
+          <div
+            class="budget-fill"
+            style="width: 66%; background: var(--green)"
+          ></div>
+        </div>
+      </div>
+      <div class="budget-item">
+        <div class="budget-top">
+          <span class="budget-name">🎬 Entretenimiento</span
+          ><span class="budget-nums">S/220 / S/300</span>
+        </div>
+        <div class="budget-bar">
+          <div
+            class="budget-fill"
+            style="width: 73%; background: var(--amber)"
+          ></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Metas de ahorro -->
+    <div class="card">
+      <div class="card-title">Metas de ahorro</div>
+      <div class="goal-item">
+        <div class="goal-icon" style="background: #dcfce7">🏖️</div>
+        <div class="goal-info">
+          <div class="goal-name">Vacaciones Cusco</div>
+          <div class="goal-bar">
+            <div class="goal-fill" style="width: 68%"></div>
+          </div>
+          <div class="goal-nums">S/1,700 / S/2,500</div>
+        </div>
+        <div class="goal-pct">68%</div>
+      </div>
+      <div class="goal-item">
+        <div class="goal-icon" style="background: #fef3c7">🚨</div>
+        <div class="goal-info">
+          <div class="goal-name">Fondo emergencia</div>
+          <div class="goal-bar">
+            <div
+              class="goal-fill"
+              style="width: 40%; background: var(--amber)"
+            ></div>
+          </div>
+          <div class="goal-nums">S/4,000 / S/10,000</div>
+        </div>
+        <div class="goal-pct" style="color: var(--amber)">40%</div>
+      </div>
+      <div class="goal-item">
+        <div class="goal-icon" style="background: #ede9fe">💻</div>
+        <div class="goal-info">
+          <div class="goal-name">Nueva laptop</div>
+          <div class="goal-bar">
+            <div class="goal-fill" style="width: 85%"></div>
+          </div>
+          <div class="goal-nums">S/2,550 / S/3,000</div>
+        </div>
+        <div class="goal-pct">85%</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Row 3 -->
+  <div class="main-grid">
+    <!-- Portafolio -->
+    <div class="card">
+      <div class="card-title">
+        Portafolio de inversión
+        <span
+          class="badge"
+          style="background: var(--green-light); color: var(--green)"
+          >+12.4%</span
+        >
+      </div>
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 12px;
+          padding-bottom: 12px;
+          border-bottom: 1px solid var(--border);
+        "
+      >
+        <div>
+          <div style="font-size: 11px; color: var(--muted)">Invertido</div>
+          <div style="font-family: 'DM Mono'; font-weight: 600">S/ 8,500</div>
+        </div>
+        <div style="text-align: center">
+          <div style="font-size: 11px; color: var(--muted)">Valor actual</div>
+          <div
+            style="
+              font-family: 'DM Mono';
+              font-weight: 600;
+              color: var(--green);
+            "
+          >
+            S/ 9,554
+          </div>
+        </div>
+        <div style="text-align: right">
+          <div style="font-size: 11px; color: var(--muted)">Ganancia</div>
+          <div
+            style="
+              font-family: 'DM Mono';
+              font-weight: 600;
+              color: var(--green);
+            "
+          >
+            +S/ 1,054
+          </div>
+        </div>
+      </div>
+      <div class="port-row">
+        <div>
+          <div class="port-name">Apple Inc.</div>
+          <div class="port-ticker">AAPL · Acciones</div>
+        </div>
+        <div class="port-val">
+          <div class="port-price">S/ 3,200</div>
+          <div class="port-gain up">+18.2%</div>
+        </div>
+      </div>
+      <div class="port-row">
+        <div>
+          <div class="port-name">S&P 500 ETF</div>
+          <div class="port-ticker">VOO · ETF</div>
+        </div>
+        <div class="port-val">
+          <div class="port-price">S/ 4,854</div>
+          <div class="port-gain up">+9.1%</div>
+        </div>
+      </div>
+      <div class="port-row">
+        <div>
+          <div class="port-name">Bitcoin</div>
+          <div class="port-ticker">BTC · Cripto</div>
+        </div>
+        <div class="port-val">
+          <div class="port-price">S/ 1,500</div>
+          <div class="port-gain dn">-4.3%</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Últimos movimientos -->
+    <div class="card">
+      <div class="card-title">Últimos movimientos</div>
+      <div class="tx-item">
+        <div class="tx-left">
+          <div class="tx-cat" style="background: #dcfce7">💰</div>
+          <div>
+            <div class="tx-desc">Salario junio</div>
+            <div class="tx-date">15 jun</div>
+          </div>
+        </div>
+        <div class="tx-amount pos">+S/3,500</div>
+      </div>
+      <div class="tx-item">
+        <div class="tx-left">
+          <div class="tx-cat" style="background: #fee2e2">🛒</div>
+          <div>
+            <div class="tx-desc">Supermercado Plaza Vea</div>
+            <div class="tx-date">14 jun</div>
+          </div>
+        </div>
+        <div class="tx-amount neg">-S/185</div>
+      </div>
+      <div class="tx-item">
+        <div class="tx-left">
+          <div class="tx-cat" style="background: #ede9fe">📱</div>
+          <div>
+            <div class="tx-desc">Spotify + Netflix</div>
+            <div class="tx-date">13 jun</div>
+          </div>
+        </div>
+        <div class="tx-amount neg">-S/45</div>
+      </div>
+      <div class="tx-item">
+        <div class="tx-left">
+          <div class="tx-cat" style="background: #fef3c7">🚗</div>
+          <div>
+            <div class="tx-desc">Combustible</div>
+            <div class="tx-date">12 jun</div>
+          </div>
+        </div>
+        <div class="tx-amount neg">-S/80</div>
+      </div>
+      <div class="tx-item">
+        <div class="tx-left">
+          <div class="tx-cat" style="background: #dcfce7">💻</div>
+          <div>
+            <div class="tx-desc">Proyecto freelance</div>
+            <div class="tx-date">10 jun</div>
+          </div>
+        </div>
+        <div class="tx-amount pos">+S/800</div>
+      </div>
+    </div>
+  </div>
+</div>
