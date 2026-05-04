@@ -75,7 +75,7 @@ export const CategoryForm = ({ userId, initial, onSubmit, loading }: Props) => {
         <button
           type='button'
           onClick={() => setShowPicker((v) => !v)}
-          className='flex w-full items-center gap-3 rounded-xl border border-border px-4 py-2.5 text-left transition-colors hover:bg-[#F9FAFB]'
+          className='flex w-full items-center gap-3 rounded-xl border border-border px-4 py-2.5 text-left transition-colors hover:bg-border'
         >
           <span className='text-2xl'>{icon}</span>
           <span className='flex-1 text-sm text-muted'>
@@ -108,7 +108,7 @@ export const CategoryForm = ({ userId, initial, onSubmit, loading }: Props) => {
               className='h-8 w-8 rounded-full border-2 transition-all'
               style={{
                 background: c,
-                borderColor: color === c ? '#111827' : 'transparent',
+                borderColor: color === c ? 'var(--color-foreground)' : 'transparent',
               }}
             />
           ))}
@@ -116,7 +116,7 @@ export const CategoryForm = ({ userId, initial, onSubmit, loading }: Props) => {
       </div>
 
       {/* Preview */}
-      <div className='flex items-center gap-3 rounded-xl bg-[#F9FAFB] px-4 py-3'>
+      <div className='flex items-center gap-3 rounded-xl bg-border px-4 py-3'>
         <div
           className='flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl text-xl'
           style={{ background: `${color}20` }}

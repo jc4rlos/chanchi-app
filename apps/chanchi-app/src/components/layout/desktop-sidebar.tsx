@@ -48,7 +48,7 @@ export const DesktopSidebar = () => {
           </span>
           <button
             onClick={toggleAmounts}
-            className='flex h-7 w-7 items-center justify-center rounded-lg text-muted transition-colors hover:bg-[#F3F4F6] hover:text-foreground'
+            className='flex h-7 w-7 items-center justify-center rounded-lg text-muted transition-colors hover:bg-border hover:text-foreground'
             title={amountsVisible ? 'Ocultar montos' : 'Mostrar montos'}
           >
             {amountsVisible ? <EyeOff size={14} /> : <Eye size={14} />}
@@ -67,7 +67,7 @@ export const DesktopSidebar = () => {
                 'flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors',
                 active
                   ? 'bg-primary-light text-primary'
-                  : 'text-muted hover:bg-[#F3F4F6] hover:text-foreground'
+                  : 'text-muted hover:bg-border hover:text-foreground'
               )}
             >
               <Icon size={18} strokeWidth={active ? 2.5 : 1.8} />

@@ -1,10 +1,16 @@
 import { useEffect } from 'react'
 import { createRootRoute, Outlet } from '@tanstack/react-router'
 import { useAuthStore } from '@/stores/auth-store'
+import { useUIStore } from '@/stores/ui-store'
 import { supabase } from '@/lib/supabase'
 
 const RootComponent = () => {
   const { setSession, setLoading } = useAuthStore()
+  const { darkMode } = useUIStore()
+
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark', darkMode)
+  }, [darkMode])
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {

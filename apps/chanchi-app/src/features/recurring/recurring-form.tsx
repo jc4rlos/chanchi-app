@@ -66,7 +66,7 @@ export const RecurringForm = ({
             key={t}
             type='button'
             onClick={() => setType(t)}
-            className={`flex-1 rounded-xl py-3 text-sm font-medium transition-colors ${type === t ? (t === 'income' ? 'bg-primary text-white' : 'bg-danger text-white') : 'bg-[#F3F4F6] text-muted'}`}
+            className={`flex-1 rounded-xl py-3 text-sm font-medium transition-colors ${type === t ? (t === 'income' ? 'bg-primary text-white' : 'bg-danger text-white') : 'bg-border text-muted'}`}
           >
             {t === 'income' ? '💰 Ingreso' : '💸 Gasto'}
           </button>

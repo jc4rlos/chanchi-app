@@ -26,7 +26,7 @@ export const DebtItem = ({ debt, onAddPayment, onDelete }: Props) => {
 
   return (
     <div
-      className={`rounded-[14px] border bg-card p-4 shadow-card ${debt.is_paid ? 'border-[#F3F4F6] opacity-60' : 'border-border'}`}
+      className={`rounded-[14px] border bg-card p-4 shadow-card ${debt.is_paid ? 'border-border opacity-60' : 'border-border'}`}
     >
       {/* Header */}
       <div className='mb-3 flex items-start justify-between'>
@@ -74,7 +74,7 @@ export const DebtItem = ({ debt, onAddPayment, onDelete }: Props) => {
       {/* Progress bar */}
       {debt.amount > 0 && (
         <div className='mb-3'>
-          <div className='h-1.5 w-full rounded-full bg-[#F3F4F6]'>
+          <div className='h-1.5 w-full rounded-full bg-border'>
             <div
               className='h-full rounded-full bg-primary transition-all duration-500'
               style={{ width: `${pct}%` }}
@@ -125,7 +125,7 @@ export const DebtItem = ({ debt, onAddPayment, onDelete }: Props) => {
 
       {/* Payment history */}
       {historyOpen && payments.length > 0 && (
-        <div className='mt-3 flex flex-col gap-1.5 border-t border-[#F3F4F6] pt-3'>
+        <div className='mt-3 flex flex-col gap-1.5 border-t border-border pt-3'>
           {payments.map((p) => (
             <div key={p.id} className='flex items-center justify-between'>
               <div>
@@ -146,7 +146,7 @@ export const DebtItem = ({ debt, onAddPayment, onDelete }: Props) => {
 
       {/* Paid: show history directly */}
       {debt.is_paid && payments.length > 0 && (
-        <div className='mt-2 flex flex-col gap-1 border-t border-[#F3F4F6] pt-2'>
+        <div className='mt-2 flex flex-col gap-1 border-t border-border pt-2'>
           {payments.map((p) => (
             <div key={p.id} className='flex items-center justify-between'>
               <span className='text-xs text-muted'>

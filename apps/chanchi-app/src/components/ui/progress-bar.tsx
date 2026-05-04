@@ -26,7 +26,7 @@ export const ProgressBar = ({
   return (
     <div
       className={cn(
-        'w-full rounded-full bg-[#F3F4F6]',
+        'w-full rounded-full bg-border',
         heightClass[height],
         className
       )}

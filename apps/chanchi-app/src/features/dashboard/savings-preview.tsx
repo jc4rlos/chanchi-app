@@ -10,7 +10,7 @@ export const SavingsPreview = ({ goals }: Props) => {
 
   return (
     <Card title='Metas de ahorro'>
-      <div className='flex flex-col divide-y divide-[#F9FAFB]'>
+      <div className='flex flex-col divide-y divide-border'>
         {active.map((g) => {
           const pct = Math.round((g.saved_amount / g.target_amount) * 100)
           return (

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
-import { LogOut, Bell, KeyRound, ChevronRight, Eye, EyeOff } from 'lucide-react'
+import { LogOut, Bell, KeyRound, ChevronRight, Eye, EyeOff, Moon, Sun } from 'lucide-react'
 import { useAuthStore } from '@/stores/auth-store'
 import { useUIStore } from '@/stores/ui-store'
 import { BottomSheet } from '@/components/ui/bottom-sheet'
@@ -19,7 +19,7 @@ const Toggle = ({
     type='button'
     onClick={onToggle}
     className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-      value ? 'bg-primary' : 'bg-[#D1D5DB]'
+      value ? 'bg-primary' : 'bg-border'
     }`}
   >
     <span
@@ -32,7 +32,7 @@ const Toggle = ({
 
 const SettingsPage = () => {
   const { user, signOut } = useAuthStore()
-  const { amountsVisible, toggleAmounts } = useUIStore()
+  const { amountsVisible, toggleAmounts, darkMode, toggleDarkMode } = useUIStore()
   const [pwdSheetOpen, setPwdSheetOpen] = useState(false)
 
   return (
@@ -73,11 +73,25 @@ const SettingsPage = () => {
             </div>
             <Toggle value={amountsVisible} onToggle={toggleAmounts} />
           </div>
+          <div className='mt-3 flex items-center gap-3 border-t border-border pt-3'>
+            {darkMode ? (
+              <Moon size={18} className='flex-shrink-0 text-muted' />
+            ) : (
+              <Sun size={18} className='flex-shrink-0 text-muted' />
+            )}
+            <div className='flex-1'>
+              <p className='text-sm text-foreground'>Modo oscuro</p>
+              <p className='text-xs text-muted'>
+                {darkMode ? 'Tema oscuro activo' : 'Tema claro activo'}
+              </p>
+            </div>
+            <Toggle value={darkMode} onToggle={toggleDarkMode} />
+          </div>
         </Card>
 
         {/* Cuenta */}
         <Card>
-          <div className='flex flex-col divide-y divide-[#F9FAFB]'>
+          <div className='flex flex-col divide-y divide-border'>
             <button
               onClick={() => setPwdSheetOpen(true)}
               className='flex w-full items-center gap-3 py-3.5 text-left text-sm text-foreground'

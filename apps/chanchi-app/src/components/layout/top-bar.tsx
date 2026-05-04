@@ -40,7 +40,7 @@ export const TopBar = () => {
           <div className='flex items-center gap-2'>
             <button
               onClick={toggleAmounts}
-              className='flex h-9 w-9 items-center justify-center rounded-full bg-[#F3F4F6] text-muted transition-colors hover:bg-[#E5E7EB] hover:text-foreground'
+              className='flex h-9 w-9 items-center justify-center rounded-full bg-border text-muted transition-colors hover:bg-border/70 hover:text-foreground'
               title={amountsVisible ? 'Ocultar montos' : 'Mostrar montos'}
             >
               {amountsVisible ? <EyeOff size={16} /> : <Eye size={16} />}
@@ -58,7 +58,7 @@ export const TopBar = () => {
     <header className='sticky top-0 z-20 flex h-14 items-center gap-3 border-b border-border bg-card px-4 md:hidden'>
       <button
         onClick={() => window.history.back()}
-        className='flex h-8 w-8 items-center justify-center rounded-full bg-[#F3F4F6]'
+        className='flex h-8 w-8 items-center justify-center rounded-full bg-border'
       >
         <ChevronLeft size={18} className='text-foreground' />
       </button>
@@ -67,7 +67,7 @@ export const TopBar = () => {
       </h1>
       <button
         onClick={toggleAmounts}
-        className='flex h-8 w-8 items-center justify-center rounded-full bg-[#F3F4F6] text-muted transition-colors hover:bg-[#E5E7EB] hover:text-foreground'
+        className='flex h-8 w-8 items-center justify-center rounded-full bg-border text-muted transition-colors hover:bg-border/70 hover:text-foreground'
         title={amountsVisible ? 'Ocultar montos' : 'Mostrar montos'}
       >
         {amountsVisible ? <EyeOff size={15} /> : <Eye size={15} />}

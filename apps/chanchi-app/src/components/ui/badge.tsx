@@ -13,7 +13,7 @@ const variantClass: Record<BadgeVariant, string> = {
   danger: 'bg-danger-light text-danger',
   warning: 'bg-amber-light text-amber',
   info: 'bg-blue-light text-blue',
-  neutral: 'bg-[#F3F4F6] text-muted',
+  neutral: 'bg-border text-muted',
 }
 
 export const Badge = ({

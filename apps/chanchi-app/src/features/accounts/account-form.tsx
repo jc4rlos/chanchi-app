@@ -96,7 +96,7 @@ export const AccountForm = ({ userId, onSubmit, loading }: Props) => {
               className='h-8 w-8 rounded-full border-2 transition-all'
               style={{
                 background: c,
-                borderColor: color === c ? '#111827' : 'transparent',
+                borderColor: color === c ? 'var(--color-foreground)' : 'transparent',
               }}
             />
           ))}

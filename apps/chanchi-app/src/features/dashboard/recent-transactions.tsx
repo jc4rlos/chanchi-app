@@ -7,7 +7,7 @@ import { Card } from '@/components/ui/card'
 type Props = { transactions: TransactionWithCategory[] }
 
 const TransactionRow = ({ tx }: { tx: TransactionWithCategory }) => (
-  <div className='flex items-center justify-between border-b border-[#F9FAFB] py-2.5 last:border-0'>
+  <div className='flex items-center justify-between border-b border-border py-2.5 last:border-0'>
     <div className='flex items-center gap-2.5'>
       <div
         className='flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg text-sm'

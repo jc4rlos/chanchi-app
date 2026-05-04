@@ -56,7 +56,7 @@ export const IncomeExpenseChart = ({ data }: Props) => {
             contentStyle={{
               fontSize: 12,
               borderRadius: 10,
-              border: '1px solid #E5E7EB',
+              border: '1px solid var(--color-border)',
             }}
             formatter={(v) => formatCurrency(Number(v))}
           />

@@ -43,7 +43,7 @@ export const KpiCard = (props: KpiCardProps) => {
         {props.variant === 'saving' ? (
           <div
             className={cn(
-              'font-mono text-[22px] leading-none font-semibold',
+              'font-mono text-base leading-none font-semibold',
               styles.value
             )}
           >
@@ -60,9 +60,9 @@ export const KpiCard = (props: KpiCardProps) => {
                   ? 'expense'
                   : 'neutral'
             }
-            size='xl'
+            size='sm'
             className={cn(
-              'text-[22px] leading-none',
+              'text-base leading-none',
               props.variant === 'balance' && props.amount >= 0 && 'text-blue'
             )}
           />

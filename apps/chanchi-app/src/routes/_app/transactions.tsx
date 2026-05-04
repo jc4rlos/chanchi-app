@@ -9,6 +9,7 @@ import { PageHeader } from '@/components/ui/page-header'
 import { TransactionForm } from '@/features/transactions/transaction-form'
 import { TransactionItem } from '@/features/transactions/transaction-item'
 import { useTransactions } from '@/features/transactions/use-transactions'
+import { formatCurrency } from '@/lib/utils'
 
 const TransactionsPage = () => {
   const { user } = useAuthStore()
@@ -30,6 +31,10 @@ const TransactionsPage = () => {
     create.mutate(payload, { onSuccess: () => setSheetOpen(false) })
   }
 
+  const txList = transactions.data ?? []
+  const totalIncome = txList.filter((t) => t.type === 'income').reduce((sum, t) => sum + Number(t.amount), 0)
+  const totalExpense = txList.filter((t) => t.type === 'expense').reduce((sum, t) => sum + Number(t.amount), 0)
+
   const tabs = ['all', 'income', 'expense'] as const
   const tabLabels: Record<(typeof tabs)[number], string> = {
     all: 'Todos',
@@ -40,6 +45,19 @@ const TransactionsPage = () => {
   return (
     <div>
       <PageHeader title='Movimientos' />
+
+      {!transactions.isLoading && (
+        <div className='mb-4 grid grid-cols-2 gap-3'>
+          <div className='rounded-xl bg-card p-4'>
+            <p className='mb-1 text-xs font-semibold tracking-widest text-muted uppercase'>Ingresos</p>
+            <p className='font-mono text-lg font-bold text-success'>{formatCurrency(totalIncome)}</p>
+          </div>
+          <div className='rounded-xl bg-card p-4'>
+            <p className='mb-1 text-xs font-semibold tracking-widest text-muted uppercase'>Gastos</p>
+            <p className='font-mono text-lg font-bold text-danger'>{formatCurrency(totalExpense)}</p>
+          </div>
+        </div>
+      )}
 
       <div className='scrollbar-hide mb-4 flex gap-2 overflow-x-auto pb-1'>
         {tabs.map((t) => (

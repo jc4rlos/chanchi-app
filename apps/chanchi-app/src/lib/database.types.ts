@@ -339,6 +339,7 @@ export interface Database {
           next_date: string
           end_date: string | null
           is_active: boolean
+          last_executed_at: string | null
           created_at: string
         }
         Insert: {
@@ -353,6 +354,7 @@ export interface Database {
           next_date: string
           end_date?: string | null
           is_active?: boolean
+          last_executed_at?: string | null
           created_at?: string
         }
         Update: {
@@ -365,6 +367,7 @@ export interface Database {
           next_date?: string
           end_date?: string | null
           is_active?: boolean
+          last_executed_at?: string | null
         }
       }
     }

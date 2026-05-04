@@ -71,7 +71,7 @@ export const TransactionForm = ({
                   : t === 'expense'
                     ? 'bg-danger text-white'
                     : 'bg-blue text-white'
-                : 'bg-[#F3F4F6] text-muted'
+                : 'bg-border text-muted'
             }`}
           >
             {TYPE_LABELS[t]}
