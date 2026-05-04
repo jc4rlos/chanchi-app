@@ -30,7 +30,7 @@ export const AccountCard = ({ account, onDelete }: Props) => (
         <div
           className='flex h-10 w-10 items-center justify-center rounded-xl text-xl'
           style={{
-            background: account.color ? `${account.color}20` : '#F3F4F6',
+            background: account.color ? `${account.color}20` : 'var(--color-border)',
           }}
         >
           {ACCOUNT_TYPE_EMOJI[account.type]}

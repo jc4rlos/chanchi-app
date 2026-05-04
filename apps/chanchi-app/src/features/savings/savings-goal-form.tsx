@@ -84,7 +84,7 @@ export const SavingsGoalForm = ({ userId, onSubmit, loading }: Props) => {
               key={i}
               type='button'
               onClick={() => setIcon(i)}
-              className={`flex h-10 w-10 items-center justify-center rounded-xl text-xl transition-all ${icon === i ? 'bg-primary-light ring-2 ring-primary' : 'bg-[#F3F4F6]'}`}
+              className={`flex h-10 w-10 items-center justify-center rounded-xl text-xl transition-all ${icon === i ? 'bg-primary-light ring-2 ring-primary' : 'bg-border'}`}
             >
               {i}
             </button>
@@ -102,7 +102,7 @@ export const SavingsGoalForm = ({ userId, onSubmit, loading }: Props) => {
               className='h-8 w-8 rounded-full border-2 transition-all'
               style={{
                 background: c,
-                borderColor: color === c ? '#111827' : 'transparent',
+                borderColor: color === c ? 'var(--color-foreground)' : 'transparent',
               }}
             />
           ))}

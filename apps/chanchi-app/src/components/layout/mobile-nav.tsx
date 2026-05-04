@@ -94,7 +94,7 @@ export const MobileNav = () => {
               </span>
               <button
                 onClick={() => setMoreOpen(false)}
-                className='flex h-8 w-8 items-center justify-center rounded-full bg-[#F3F4F6]'
+                className='flex h-8 w-8 items-center justify-center rounded-full bg-border'
               >
                 <X size={16} className='text-muted' />
               </button>
@@ -115,7 +115,7 @@ export const MobileNav = () => {
                         'flex h-12 w-12 items-center justify-center rounded-2xl',
                         active
                           ? 'bg-primary text-white'
-                          : 'bg-[#F3F4F6] text-muted'
+                          : 'bg-border text-muted'
                       )}
                     >
                       <Icon size={22} strokeWidth={1.8} />

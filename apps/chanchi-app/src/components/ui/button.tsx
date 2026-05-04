@@ -13,8 +13,8 @@ type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 
 const variantClass: Record<ButtonVariant, string> = {
   primary: 'bg-primary text-white active:bg-primary/90',
-  secondary: 'bg-[#F3F4F6] text-foreground active:bg-border',
-  ghost: 'bg-transparent text-foreground active:bg-[#F3F4F6]',
+  secondary: 'bg-border text-foreground active:bg-border/70',
+  ghost: 'bg-transparent text-foreground active:bg-border',
   danger: 'bg-danger text-white active:bg-danger/90',
 }
 

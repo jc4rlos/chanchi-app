@@ -44,7 +44,7 @@ export const PortfolioPreview = ({ investments }: Props) => {
           </p>
         </div>
       </div>
-      <div className='flex flex-col divide-y divide-[#F9FAFB]'>
+      <div className='flex flex-col divide-y divide-border'>
         {investments.slice(0, 3).map((inv) => {
           const g = calcGainPct(inv.total_invested, inv.current_value)
           return (

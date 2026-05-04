@@ -11,6 +11,7 @@ import { DebtForm } from '@/features/debts/debt-form'
 import { DebtItem } from '@/features/debts/debt-item'
 import { PaymentForm } from '@/features/debts/payment-form'
 import { useDebts } from '@/features/debts/use-debts'
+import { formatCurrency } from '@/lib/utils'
 
 const DebtsPage = () => {
   const { user } = useAuthStore()
@@ -29,9 +30,25 @@ const DebtsPage = () => {
   const iOwe = filtered.filter((d) => d.direction === 'i_owe')
   const theyOweMe = filtered.filter((d) => d.direction === 'they_owe_me')
 
+  const totalIOwe = iOwe.reduce((sum, d) => sum + d.remaining, 0)
+  const totalTheyOweMe = theyOweMe.reduce((sum, d) => sum + d.remaining, 0)
+
   return (
     <div>
       <PageHeader title='Deudas' />
+
+      {!debts.isLoading && (
+        <div className='mb-4 grid grid-cols-2 gap-3'>
+          <div className='rounded-xl bg-card p-4'>
+            <p className='mb-1 text-xs font-semibold tracking-widest text-muted uppercase'>Me deben</p>
+            <p className='font-mono text-lg font-bold text-success'>{formatCurrency(totalTheyOweMe)}</p>
+          </div>
+          <div className='rounded-xl bg-card p-4'>
+            <p className='mb-1 text-xs font-semibold tracking-widest text-muted uppercase'>Yo debo</p>
+            <p className='font-mono text-lg font-bold text-danger'>{formatCurrency(totalIOwe)}</p>
+          </div>
+        </div>
+      )}
 
       <div className='mb-4 flex gap-2'>
         {(['pending', 'paid', 'all'] as const).map((f) => (

@@ -44,7 +44,7 @@ const CategoriesPage = () => {
       />
 
       {/* Tabs */}
-      <div className='mb-4 flex rounded-xl bg-[#F3F4F6] p-1'>
+      <div className='mb-4 flex rounded-xl bg-border p-1'>
         {(['expense', 'income'] as TabType[]).map((t) => (
           <button
             key={t}

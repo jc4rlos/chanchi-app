@@ -17,7 +17,7 @@ export const CategoryCard = ({ category, onEdit, onDelete }: Props) => {
       <div
         className='flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl text-xl'
         style={{
-          background: category.color ? `${category.color}20` : '#F3F4F6',
+          background: category.color ? `${category.color}20` : 'var(--color-border)',
         }}
       >
         {category.icon ?? '📂'}
@@ -38,7 +38,7 @@ export const CategoryCard = ({ category, onEdit, onDelete }: Props) => {
             {TYPE_LABEL[category.type as keyof typeof TYPE_LABEL]}
           </span>
           {isGlobal && (
-            <span className='rounded-full bg-[#F3F4F6] px-1.5 py-0.5 text-[10px] font-medium text-muted'>
+            <span className='rounded-full bg-border px-1.5 py-0.5 text-[10px] font-medium text-muted'>
               Global
             </span>
           )}

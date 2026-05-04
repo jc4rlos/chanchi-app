@@ -41,7 +41,7 @@ export const DebtForm = ({ userId, onSubmit, loading }: Props) => {
             className={`flex-1 rounded-xl py-3 text-sm font-medium transition-colors ${
               direction === d
                 ? 'bg-primary text-white'
-                : 'bg-[#F3F4F6] text-muted'
+                : 'bg-border text-muted'
             }`}
           >
             {d === 'i_owe' ? '😬 Yo debo' : '🤝 Me deben'}

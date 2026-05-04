@@ -52,7 +52,7 @@ export const ExpenseDonut = ({ data, totalExpenses }: Props) => {
                 contentStyle={{
                   fontSize: 11,
                   borderRadius: 10,
-                  border: '1px solid #E5E7EB',
+                  border: '1px solid var(--color-border)',
                 }}
                 formatter={(v) => formatCurrency(Number(v))}
               />

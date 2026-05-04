@@ -15,7 +15,7 @@ const BG_BY_TYPE = {
 }
 
 export const TransactionItem = ({ tx, onDelete }: Props) => (
-  <div className='flex items-center gap-3 border-b border-[#F9FAFB] bg-card px-4 py-3 last:border-0'>
+  <div className='flex items-center gap-3 border-b border-border bg-card px-4 py-3 last:border-0'>
     <div
       className='flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl text-base'
       style={{ background: BG_BY_TYPE[tx.type] }}

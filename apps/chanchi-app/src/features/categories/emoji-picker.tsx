@@ -54,7 +54,7 @@ export const EmojiPicker = ({ value, onChange }: Props) => (
               className={`flex h-9 w-9 items-center justify-center rounded-xl text-xl transition-all ${
                 value === emoji
                   ? 'bg-primary-light scale-110 ring-2 ring-primary'
-                  : 'bg-[#F3F4F6] hover:bg-[#E9ECEF]'
+                  : 'bg-border hover:bg-border/70'
               }`}
             >
               {emoji}

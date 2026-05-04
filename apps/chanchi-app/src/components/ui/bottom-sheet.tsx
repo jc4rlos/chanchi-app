@@ -48,7 +48,7 @@ export const BottomSheet = ({
           )}
           <button
             onClick={onClose}
-            className='ml-auto flex h-8 w-8 items-center justify-center rounded-full bg-[#F3F4F6] text-muted'
+            className='ml-auto flex h-8 w-8 items-center justify-center rounded-full bg-border text-muted'
           >
             <X size={16} />
           </button>

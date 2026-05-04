@@ -3,30 +3,32 @@
 
 @custom-variant dark (&:is(.dark *));
 
-@theme inline {
+@theme {
   --font-sans: 'DM Sans', sans-serif;
   --font-mono: 'DM Mono', monospace;
 
-  --color-background: #f8faf9;
-  --color-foreground: #111827;
-  --color-muted: #6b7280;
-  --color-soft: #9ca3af;
-  --color-border: #e5e7eb;
-  --color-card: #ffffff;
-  --color-card-foreground: #111827;
+  /* Surface */
+  --color-background: #f0f7f7;
+  --color-foreground: #0d2426;
+  --color-muted:      #5a7c7e;
+  --color-soft:       #8eb0b2;
+  --color-border:     #cde4e5;
+  --color-card:       #ffffff;
 
-  --color-primary: #16a34a;
-  --color-primary-light: #dcfce7;
-  --color-primary-mid: #4ade80;
+  /* Primary — azul petróleo */
+  --color-primary:       #0e7074;
+  --color-primary-light: #e0f2f3;
+  --color-primary-mid:   #3ba8ad;
 
-  --color-danger: #dc2626;
-  --color-danger-light: #fee2e2;
-  --color-amber: #d97706;
-  --color-amber-light: #fef3c7;
-  --color-blue: #0284c7;
-  --color-blue-light: #e0f2fe;
-  --color-purple: #7c3aed;
-  --color-purple-light: #ede9fe;
+  /* Semánticos */
+  --color-danger:        #dc2626;
+  --color-danger-light:  #fee2e2;
+  --color-amber:         #b45309;
+  --color-amber-light:   #fef3c7;
+  --color-blue:          #0369a1;
+  --color-blue-light:    #e0f2fe;
+  --color-purple:        #6d28d9;
+  --color-purple-light:  #ede9fe;
 
   --radius-card: 14px;
   --radius-item: 10px;
@@ -34,6 +36,29 @@
 
   --shadow-card:
     0 1px 3px 0 rgb(0 0 0 / 0.06), 0 1px 2px -1px rgb(0 0 0 / 0.06);
+}
+
+/* ── Dark mode overrides (activa con html.dark) ── */
+.dark {
+  --color-background: #0d1f20;
+  --color-foreground: #e8f4f5;
+  --color-muted:      #6fa5a8;
+  --color-soft:       #4a7275;
+  --color-border:     #1e3d40;
+  --color-card:       #132a2c;
+
+  --color-primary:       #1a9ea4;
+  --color-primary-light: #0d3537;
+  --color-primary-mid:   #2d8a8f;
+
+  --color-danger:        #f87171;
+  --color-danger-light:  #3d1515;
+  --color-amber:         #fbbf24;
+  --color-amber-light:   #3d2800;
+  --color-blue:          #38bdf8;
+  --color-blue-light:    #0c2d3d;
+  --color-purple:        #a78bfa;
+  --color-purple-light:  #2d1f4d;
 }
 
 @layer base {
