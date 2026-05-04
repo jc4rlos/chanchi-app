@@ -25,6 +25,7 @@ export type SavingsGoalStatus = 'active' | 'completed' | 'cancelled'
 
 export interface Database {
   public: {
+    PostgrestVersion: "12"
     Views: Record<string, never>
     Functions: Record<string, never>
     Enums: Record<string, never>
@@ -53,6 +54,7 @@ export interface Database {
           preferred_currency?: string
           auto_save_pct?: number
         }
+        Relationships: []
       }
       accounts: {
         Row: {
@@ -85,6 +87,7 @@ export interface Database {
           color?: string | null
           is_active?: boolean
         }
+        Relationships: []
       }
       categories: {
         Row: {
@@ -112,6 +115,7 @@ export interface Database {
           color?: string | null
           is_active?: boolean
         }
+        Relationships: []
       }
       transactions: {
         Row: {
@@ -153,6 +157,7 @@ export interface Database {
           receipt_url?: string | null
           is_recurring?: boolean
         }
+        Relationships: []
       }
       budgets: {
         Row: {
@@ -179,6 +184,7 @@ export interface Database {
           amount?: number
           alert_at_pct?: number
         }
+        Relationships: []
       }
       debts: {
         Row: {
@@ -217,6 +223,7 @@ export interface Database {
           is_paid?: boolean
           paid_at?: string | null
         }
+        Relationships: []
       }
       debt_payments: {
         Row: {
@@ -240,6 +247,7 @@ export interface Database {
           note?: string | null
           paid_at?: string
         }
+        Relationships: []
       }
       savings_goals: {
         Row: {
@@ -284,6 +292,7 @@ export interface Database {
           color?: string | null
           updated_at?: string
         }
+        Relationships: []
       }
       investments: {
         Row: {
@@ -325,6 +334,7 @@ export interface Database {
           is_active?: boolean
           updated_at?: string
         }
+        Relationships: []
       }
       recurring_transactions: {
         Row: {
@@ -369,6 +379,7 @@ export interface Database {
           is_active?: boolean
           last_executed_at?: string | null
         }
+        Relationships: []
       }
     }
   }
